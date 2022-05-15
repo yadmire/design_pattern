@@ -13,9 +13,9 @@ public class Singleton4 {
     // 1. 给 singleton 分配内存
     // 2. 调用 Singleton 的构造函数来初始化成员变量，形成实例
     // 3. 将singleton对象指向分配的内存空间（执行完这步 singleton才是非 null了）
-    // 通过添加 volatile （内存屏障）保证线程的可见性与顺序性，保证不会发生指令重排，
-    // 解决了指令重排执行顺序为 1-3-2 的时候执行到3时，另外一个线程获取到不为null的对象
-    private volatile static Singleton4 INSTANCE= null;
+    // 通过添加 volatile （内存屏障）保证线程的可见性与顺序性，同时保证不会发生指令重排，
+    // 但是此处保证的不是new 时的指令重排，而是保证在写操作时，通过内存屏障，为该内存区域加锁，保证不会有读操作，保证写期间不会有读该内存区域的操作
+    private  static volatile Singleton4 INSTANCE= null;
 
     private Singleton4(){}
 
